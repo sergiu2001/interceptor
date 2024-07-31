@@ -28,7 +28,7 @@ const HomeScreen: React.FC = () => {
 
   const handleNavigate = () => {
     const routes = ['/check-contract', '/profile', '/settings', '/exit'];
-    router.push(routes[selectedOption]);
+    router.push(routes[selectedOption] as any);
   };
 
   const renderItem = ({ item, index }: { item: string, index: number }) => (
