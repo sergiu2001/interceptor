@@ -1,65 +1,50 @@
 import React, { useState } from 'react';
-import { View, Text, FlatList, TouchableOpacity } from 'react-native';
-import { GestureHandlerRootView, PanGestureHandler, PanGestureHandlerGestureEvent } from 'react-native-gesture-handler';
-import { useRouter } from 'expo-router';
-import { homeStyles as styles } from '../assets/styles/gameStyle';
+import { View, Text, TextInput, ScrollView } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { gameStyles as styles } from '../assets/styles/gameStyle';
 
-const SWIPE_THRESHOLD = 100;
+const GameScreen: React.FC = () => {
+    const [logs, setLogs] = useState(['Welcome, astronaut! Type "hack" to start hacking.']);
+    const [input, setInput] = useState('');
 
-const HomeScreen: React.FC = () => {
-  const router = useRouter();
-  const menuOptions = ['Check Contract', 'Profile', 'Settings', 'Exit'];
-  const [selectedOption, setSelectedOption] = useState(0);
-  const [lastOffset, setLastOffset] = useState(0);
+    const handleCommand = (text: string) => {
+        let newLogs = [...logs, `> ${text}`];
 
-  const handleGesture = (event: PanGestureHandlerGestureEvent) => {
-    const { translationY } = event.nativeEvent;
-    const direction = translationY - lastOffset > SWIPE_THRESHOLD ? 'down' : (lastOffset - translationY > SWIPE_THRESHOLD ? 'up' : null);
+        if (text === 'hack') {
+            newLogs.push('Hacking initiated... Solve the puzzle to guess the password.');
+        } else if (text.startsWith('guess ')) {
+            const guess = text.split(' ')[1];
+            newLogs.push(`You guessed: ${guess}`);
+            if (guess === 'correct-password') {
+                newLogs.push('Access granted!');
+            } else {
+                newLogs.push('Access denied. Try again.');
+            }
+        } else {
+            newLogs.push(`Unknown command: ${text}`);
+        }
 
-    if (direction) {
-      setLastOffset(translationY);
-      if (direction === 'up' && selectedOption > 0) {
-        setSelectedOption(selectedOption - 1);
-      } else if (direction === 'down' && selectedOption < menuOptions.length - 1) {
-        setSelectedOption(selectedOption + 1);
-      }
-    }
-  };
+        setLogs(newLogs);
+        setInput('');
+    };
 
-  const handleNavigate = () => {
-    const routes = ['/check-contract', '/profile', '/settings', '/exit'];
-    router.push(routes[selectedOption] as any);
-  };
-
-  const renderItem = ({ item, index }: { item: string, index: number }) => (
-    <View key={index} style={styles.menuItem}>
-      <Text style={[styles.arrow, styles.greenText]}>{selectedOption === index ? '>' : ' '}</Text>
-      <Text style={[styles.menuText, styles.greenText]}>{item}</Text>
-    </View>
-  );
-
-  return (
-    <GestureHandlerRootView style={styles.gestureContainer}>
-      <PanGestureHandler onGestureEvent={handleGesture}>
-        <View style={styles.container}>
-          <Text style={[styles.title, styles.greenText, styles.monospace]}>Interceptor</Text>
-          <FlatList
-            data={menuOptions}
-            renderItem={renderItem}
-            keyExtractor={(item, index) => index.toString()}
-            extraData={selectedOption}
-            style={styles.menu}
-          />
-          <View style={styles.buttons}>
-            <Text style={[styles.instructionText, styles.greenText, styles.monospace]}>Swipe up or down to navigate</Text>
-            <TouchableOpacity onPress={handleNavigate} style={styles.button}>
-              <Text style={styles.buttonText}>Select</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </PanGestureHandler>
-    </GestureHandlerRootView>
-  );
+    return (
+        <SafeAreaView style={styles.container}>
+            <ScrollView style={styles.logContainer}>
+                {logs.map((log, index) => (
+                    <Text key={index} style={[styles.logText, styles.monospace]}>{log}</Text>
+                ))}
+            </ScrollView>
+            <TextInput
+                style={[styles.input, styles.monospace]}
+                value={input}
+                onChangeText={setInput}
+                onSubmitEditing={() => handleCommand(input)}
+                placeholder="Type command..."
+                placeholderTextColor="#888"
+            />
+        </SafeAreaView>
+    );
 };
 
-export default HomeScreen;
+export default GameScreen;

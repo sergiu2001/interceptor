@@ -13,14 +13,18 @@
       "backgroundColor": "#201b2c"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "runtimeVersion": {
+        "policy": "appVersion"
+      }
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.elysium.interceptor"
+      "package": "com.elysium.interceptor",
+      "runtimeVersion": "1.0.0"
     },
     "web": {
       "bundler": "metro",
@@ -40,6 +44,9 @@
       "eas": {
         "projectId": "77c9af83-3532-44f5-93d8-58dce67112e2"
       }
+    },
+    "updates": {
+      "url": "https://u.expo.dev/77c9af83-3532-44f5-93d8-58dce67112e2"
     }
   }
 }
