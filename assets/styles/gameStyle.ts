@@ -28,9 +28,9 @@ export const gameStyles = StyleSheet.create({
     logText: {
         color: '#00FF00',
         fontFamily: 'SpaceMono-Regular',
-        textShadowColor: '#000000',
-        textShadowOffset: { width: 1, height: 1 },
-        textShadowRadius: 2,
+        textShadowColor: 'rgba(255, 0, 0, 0.75)',
+        textShadowOffset: { width: 1.5, height: 1 },
+        textShadowRadius: 4,
     },
     input: {
         height: 40,

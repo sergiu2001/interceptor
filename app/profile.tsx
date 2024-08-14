@@ -1,4 +1,4 @@
-// app/GameScreen.tsx
+// app/ProfileScreen.tsx
 import React, { useState } from 'react';
 import { BackHandler, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -11,8 +11,8 @@ import { useScanlineAnimation } from '../hooks/useScanlineAnimation';
 import { useFlickerAnimation } from '../hooks/useFlickerAnimation';
 import { router } from 'expo-router';
 
-const GameScreen: React.FC = () => {
-    const [logs, setLogs] = useState(['Welcome, astronaut! Use "scan" to view available contracts.']);
+const ProfileScreen: React.FC = () => {
+    const [logs, setLogs] = useState(['Use "back" to return to the main menu.']);
     const [input, setInput] = useState('');
     const [history, setHistory] = useState<string[]>([]);
 
@@ -26,36 +26,13 @@ const GameScreen: React.FC = () => {
 
         switch (command) {
             case 'help':
-                newLogs.push('scan' + '\t'.repeat(20 - 'scan'.length) + 'Scan for contracts.');
-                newLogs.push('user' + '\t'.repeat(20 - 'user'.length) + 'Display user statistics.');
-                newLogs.push('system' + '\t'.repeat(20 - 'system'.length) + 'Access system settings.');
-                newLogs.push('clear' + '\t'.repeat(21 - 'clear'.length) + 'Clear the terminal screen.');
-                newLogs.push('exit' + '\t'.repeat(21 - 'exit'.length) + 'Exit.');
+                newLogs.push('back' + '\t'.repeat(20 - 'help'.length) + 'Return back.');
                 break;
-            case 'scan':
-                newLogs.push('Scanning for contracts...');
-                newLogs.push('Contract found: Hack the satellite system.');
-                router.replace('./game');
-                break;
-            case 'user':
-                router.replace("./profile");
-                break;
-            case 'system':
-                newLogs.push('System settings:');
-                newLogs.push('1. Adjust Screen Brightness');
-                newLogs.push('2. Configure Audio');
-                newLogs.push('3. Update Terminal Software');
-                break;
-            case 'clear':
-                newLogs = [];
-                router.replace('./index');
-                break;
-            case 'exit':
-                newLogs.push('Exiting the application...');
-                BackHandler.exitApp();
+            case 'back':
+                router.replace('./');
                 break;
             default:
-                newLogs.push(`Unknown command: ${text}. Use \ihelp\i to see all available commands.`);
+                newLogs.push(`Unknown command: ${text}. Use "help" to see all available commands.`);
                 break;
         }
 
@@ -78,4 +55,4 @@ const GameScreen: React.FC = () => {
     );
 };
 
-export default GameScreen;
+export default ProfileScreen;

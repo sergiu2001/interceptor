@@ -32,24 +32,6 @@ const GameScreen: React.FC = () => {
                 newLogs.push('clear' + '\t'.repeat(21 - 'clear'.length) + 'Clear the terminal screen.');
                 newLogs.push('exit' + '\t'.repeat(21 - 'exit'.length) + 'Exit.');
                 break;
-            case 'scan':
-                newLogs.push('Scanning for contracts...');
-                newLogs.push('Contract found: Hack the satellite system.');
-                router.replace('./game');
-                break;
-            case 'user':
-                router.replace("./profile");
-                break;
-            case 'system':
-                newLogs.push('System settings:');
-                newLogs.push('1. Adjust Screen Brightness');
-                newLogs.push('2. Configure Audio');
-                newLogs.push('3. Update Terminal Software');
-                break;
-            case 'clear':
-                newLogs = [];
-                router.replace('./index');
-                break;
             case 'exit':
                 newLogs.push('Exiting the application...');
                 BackHandler.exitApp();
