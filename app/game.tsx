@@ -32,6 +32,7 @@ const GameScreen: React.FC = () => {
                 newLogs.push('clear' + '\t'.repeat(21 - 'clear'.length) + 'Clear the terminal screen.');
                 newLogs.push('exit' + '\t'.repeat(21 - 'exit'.length) + 'Exit.');
                 break;
+
             case 'exit':
                 newLogs.push('Exiting the application...');
                 BackHandler.exitApp();
