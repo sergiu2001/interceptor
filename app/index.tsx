@@ -10,23 +10,9 @@ import CommandInput from '../components/game/CommandInput';
 import { useScanlineAnimation } from '../hooks/useScanlineAnimation';
 import { useFlickerAnimation } from '../hooks/useFlickerAnimation';
 import { router } from 'expo-router';
-const logo = require('asciiart-logo');
 
 const GameScreen: React.FC = () => {
-    const [logs, setLogs] = useState(logo({
-        name: 'Just a simple example',
-        font: 'Speed',
-        lineChars: 10,
-        padding: 2,
-        margin: 3,
-        borderColor: 'grey',
-        logoColor: 'bold-green',
-        textColor: 'green',
-    })
-    .emptyLine()
-    .emptyLine()
-    .render()
-);
+    const [logs, setLogs] = useState(['Use HELP command to view the list of commands.']);
     const [input, setInput] = useState('');
     const [history, setHistory] = useState<string[]>([]);
 
