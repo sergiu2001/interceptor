@@ -1,6 +1,6 @@
 // app/ProfileScreen.tsx
 import React, { useState } from 'react';
-import { BackHandler, View } from 'react-native';
+import { Text, View, Image, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { gameStyles as styles } from '../assets/styles/gameStyle';
 import FlickerOverlay from '../components/game/FlickerOverlay';
@@ -12,7 +12,8 @@ import { useFlickerAnimation } from '../hooks/useFlickerAnimation';
 import { router } from 'expo-router';
 
 const ProfileScreen: React.FC = () => {
-    const [logs, setLogs] = useState(['Use "back" to return to the main menu.']);
+    const [plogs, setPLogs] = useState<string[]>(['ALIAS: starlord', 'REPUTATION: lord', 'TROJANS: 5000', 'LOCATION: New Vega System', 'STATUS: active']);
+    const [logs, setLogs] = useState<string[]>(['Use HELP command to view the list of commands.']);
     const [input, setInput] = useState('');
     const [history, setHistory] = useState<string[]>([]);
 
@@ -26,13 +27,32 @@ const ProfileScreen: React.FC = () => {
 
         switch (command) {
             case 'help':
-                newLogs.push('back' + '\t'.repeat(20 - 'help'.length) + 'Return back.');
+                newLogs.push('This is the list of available commands:');
+                newLogs.push('BACK, REP, XP, CRED, LOCATION, STAT, HISTORY');
+                break;
+            case 'rep':
+                newLogs.push('Your reputation is LORD.');    
+                break;
+            case 'xp':
+                newLogs.push('You have 200 xp until next promotion.');  
+                break;
+            case 'cred':
+                newLogs.push('You have 5000 trojans in your digital wallet.');  
+                break;
+            case 'location':
+                newLogs.push('Right now you are in the New Vega System.');  
+                break;
+            case 'stat':
+                newLogs.push('Your status is active.');
+                break;
+            case 'history':
+                newLogs.push('You have no history.');
                 break;
             case 'back':
                 router.replace('./');
                 break;
             default:
-                newLogs.push(`Unknown command: ${text}. Use "help" to see all available commands.`);
+                newLogs.push(`Unknown command ${text}. Use "help" to see all available commands.`);
                 break;
         }
 
@@ -47,7 +67,16 @@ const ProfileScreen: React.FC = () => {
                 <View style={styles.crt}>
                     <FlickerOverlay flickerAnim={flickerAnim} />
                     <ScanlineOverlay scanlineAnim={scanlineAnim} />
-                    <LogDisplay logs={logs} />
+                    <ScrollView>
+                        <View style={styles.profileContainer}>
+                            <LogDisplay style={styles.profileDataContainer} logs={plogs} />
+                            <Image
+                                style={styles.avatar}
+                                source={require('../assets/images/avatars/mustache.png')}
+                            />
+                        </View>
+                        <LogDisplay style={styles.logContainer} logs={logs} />
+                    </ScrollView>
                     <CommandInput input={input} setInput={setInput} handleCommand={handleCommand} />
                 </View>
             </View>

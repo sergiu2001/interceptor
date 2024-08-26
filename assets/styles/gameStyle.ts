@@ -1,8 +1,12 @@
 import { StyleSheet, Dimensions } from 'react-native';
 
 export const gameStyles = StyleSheet.create({
-    mainText: {
+    specialText: {
+        color: '#00BB00',
         fontFamily: 'SpaceMono-Regular',
+        textShadowColor: '#FF0000BF',
+        textShadowOffset: { width: 1.5, height: 1 },
+        textShadowRadius: 4,
     },
     container: {
         flex: 1,
@@ -21,27 +25,6 @@ export const gameStyles = StyleSheet.create({
         overflow: 'hidden',
         position: 'relative',
     },
-    logContainer: {
-        flex: 1,
-        padding: 10,
-    },
-    logText: {
-        color: '#00FF00',
-        fontFamily: 'SpaceMono-Regular',
-        textShadowColor: 'rgba(255, 0, 0, 0.75)',
-        textShadowOffset: { width: 1.5, height: 1 },
-        textShadowRadius: 4,
-    },
-    input: {
-        height: 40,
-        borderColor: '#00FF00',
-        borderWidth: 1,
-        color: '#00FF00',
-        paddingHorizontal: 10,
-        fontFamily: 'SpaceMono-Regular',
-        backgroundColor: '#000000',
-        zIndex: 3,
-    },
     scanlineContainer: {
         position: 'absolute',
         top: 0,
@@ -52,6 +35,7 @@ export const gameStyles = StyleSheet.create({
     scanline: {
         height: 20,
         width: '100%',
+        zIndex: 3,
     },
     screenLineV: {
         position: 'absolute',
@@ -78,5 +62,45 @@ export const gameStyles = StyleSheet.create({
         backgroundColor: 'rgba(18, 16, 16, 0.1)',
         zIndex: 3,
         pointerEvents: 'none',
+    },
+
+    logContainer: {
+        flex: 1,
+        paddingTop: 20,
+        paddingBottom: 20,
+        paddingHorizontal: 10,
+    },
+    logText: {
+        color: '#00FF00',
+        fontFamily: 'SpaceMono-Regular',
+        textShadowColor: '#FF0000BF',
+        textShadowOffset: { width: 1.5, height: 1 },
+        textShadowRadius: 4,
+    },
+
+    input: {
+        height: 40,
+        borderColor: '#00FF00',
+        borderWidth: 1,
+        color: '#00FF00',
+        paddingHorizontal: 10,
+        fontFamily: 'SpaceMono-Regular',
+        backgroundColor: '#000000',
+        zIndex: 3,
+    },
+
+    profileContainer: {
+        flex: 1,
+        flexDirection: 'row',
+    },
+    profileDataContainer: {
+        flex: 1,
+        paddingLeft: 4,
+        alignSelf: 'center',
+    },
+    avatar: {
+        width: 140,
+        height: 140,
+        overflow: 'hidden',
     },
 });

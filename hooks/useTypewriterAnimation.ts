@@ -1,4 +1,3 @@
-// src/hooks/useTypewriterAnimation.ts
 import { useState, useEffect } from 'react';
 
 interface UseTypewriterAnimationOptions {
@@ -8,10 +7,11 @@ interface UseTypewriterAnimationOptions {
 
 const useTypewriterAnimation = (
     text: string,
-    { typingSpeed = 50, onComplete }: UseTypewriterAnimationOptions = {}
+    { typingSpeed = 10, onComplete }: UseTypewriterAnimationOptions = {}
 ) => {
     const [displayedText, setDisplayedText] = useState('');
     const [index, setIndex] = useState(0);
+    const [isComplete, setIsComplete] = useState(false);  // New state to track completion
 
     useEffect(() => {
         if (index < text.length) {
@@ -21,12 +21,13 @@ const useTypewriterAnimation = (
             }, typingSpeed);
 
             return () => clearTimeout(timeoutId);
-        } else if (onComplete) {
-            onComplete();
+        } else if (!isComplete) {
+            setIsComplete(true); // Set complete when animation finishes
+            if (onComplete) onComplete();
         }
-    }, [index, text, typingSpeed, onComplete]);
+    }, [index, text, typingSpeed, onComplete, isComplete]);
 
-    return displayedText;
+    return { displayedText, isComplete };  // Return the new `isComplete` state
 };
 
 export default useTypewriterAnimation;

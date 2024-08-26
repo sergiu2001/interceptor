@@ -10,9 +10,23 @@ import CommandInput from '../components/game/CommandInput';
 import { useScanlineAnimation } from '../hooks/useScanlineAnimation';
 import { useFlickerAnimation } from '../hooks/useFlickerAnimation';
 import { router } from 'expo-router';
+const logo = require('asciiart-logo');
 
 const GameScreen: React.FC = () => {
-    const [logs, setLogs] = useState(['Welcome, astronaut! Use "scan" to view available contracts.']);
+    const [logs, setLogs] = useState(logo({
+        name: 'Just a simple example',
+        font: 'Speed',
+        lineChars: 10,
+        padding: 2,
+        margin: 3,
+        borderColor: 'grey',
+        logoColor: 'bold-green',
+        textColor: 'green',
+    })
+    .emptyLine()
+    .emptyLine()
+    .render()
+);
     const [input, setInput] = useState('');
     const [history, setHistory] = useState<string[]>([]);
 
@@ -26,29 +40,25 @@ const GameScreen: React.FC = () => {
 
         switch (command) {
             case 'help':
-                newLogs.push('scan' + '\t'.repeat(20 - 'scan'.length) + 'Scan for contracts.');
-                newLogs.push('user' + '\t'.repeat(20 - 'user'.length) + 'Display user statistics.');
-                newLogs.push('system' + '\t'.repeat(20 - 'system'.length) + 'Access system settings.');
-                newLogs.push('clear' + '\t'.repeat(21 - 'clear'.length) + 'Clear the terminal screen.');
-                newLogs.push('exit' + '\t'.repeat(21 - 'exit'.length) + 'Exit.');
+                newLogs.push('This is the list of available commands:');
+                newLogs.push('SCAN, PROFILE, SYS, CLC, EXIT');
                 break;
             case 'scan':
                 newLogs.push('Scanning for contracts...');
                 newLogs.push('Contract found: Hack the satellite system.');
                 router.replace('./game');
                 break;
-            case 'user':
+            case 'profile':
                 router.replace("./profile");
                 break;
-            case 'system':
+            case 'sys':
                 newLogs.push('System settings:');
                 newLogs.push('1. Adjust Screen Brightness');
                 newLogs.push('2. Configure Audio');
                 newLogs.push('3. Update Terminal Software');
                 break;
-            case 'clear':
-                newLogs = [];
-                router.replace('./index');
+            case 'clc':
+                router.replace('./');
                 break;
             case 'exit':
                 newLogs.push('Exiting the application...');
@@ -70,7 +80,7 @@ const GameScreen: React.FC = () => {
                 <View style={styles.crt}>
                     <FlickerOverlay flickerAnim={flickerAnim} />
                     <ScanlineOverlay scanlineAnim={scanlineAnim} />
-                    <LogDisplay logs={logs} />
+                    <LogDisplay style={styles.logContainer} logs={logs} />
                     <CommandInput input={input} setInput={setInput} handleCommand={handleCommand} />
                 </View>
             </View>

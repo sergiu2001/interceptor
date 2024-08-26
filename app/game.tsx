@@ -1,6 +1,6 @@
 // app/GameScreen.tsx
 import React, { useState } from 'react';
-import { BackHandler, View } from 'react-native';
+import { View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { gameStyles as styles } from '../assets/styles/gameStyle';
 import FlickerOverlay from '../components/game/FlickerOverlay';
@@ -32,13 +32,11 @@ const GameScreen: React.FC = () => {
                 newLogs.push('clear' + '\t'.repeat(21 - 'clear'.length) + 'Clear the terminal screen.');
                 newLogs.push('exit' + '\t'.repeat(21 - 'exit'.length) + 'Exit.');
                 break;
-
-            case 'exit':
-                newLogs.push('Exiting the application...');
-                BackHandler.exitApp();
+            case 'abandon':
+                router.replace('./')
                 break;
             default:
-                newLogs.push(`Unknown command: ${text}. Use \ihelp\i to see all available commands.`);
+                newLogs.push(`Unknown command ${text}. Use \ihelp\i to see all available commands.`);
                 break;
         }
 
@@ -53,7 +51,7 @@ const GameScreen: React.FC = () => {
                 <View style={styles.crt}>
                     <FlickerOverlay flickerAnim={flickerAnim} />
                     <ScanlineOverlay scanlineAnim={scanlineAnim} />
-                    <LogDisplay logs={logs} />
+                    <LogDisplay style={styles.logContainer} logs={logs} />
                     <CommandInput input={input} setInput={setInput} handleCommand={handleCommand} />
                 </View>
             </View>
