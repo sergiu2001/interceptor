@@ -1,7 +1,7 @@
 // src/components/CommandInput.tsx
 import React from 'react';
 import { TextInput } from 'react-native';
-import { gameStyles as styles } from '../../assets/styles/gameStyle';
+import { gameStyles as styles } from '../assets/styles/gameStyle';
 
 interface CommandInputProps {
     input: string;

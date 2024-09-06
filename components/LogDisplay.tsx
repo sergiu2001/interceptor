@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { ScrollView, StyleProp, StyleSheet, Text } from 'react-native';
-import { gameStyles as styles } from '../../assets/styles/gameStyle';
-import useTypewriterAnimation from '../../hooks/useTypewriterAnimation';
+import { gameStyles as styles } from '../assets/styles/gameStyle';
+import useTypewriterAnimation from '../hooks/useTypewriterAnimation';
 
 interface LogDisplayProps {
     logs: string[];

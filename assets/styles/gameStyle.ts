@@ -15,13 +15,11 @@ export const gameStyles = StyleSheet.create({
     bezel: {
         flex: 1,
         backgroundColor: '#000000',
-        borderRadius: 10,
         padding: 5,
     },
     crt: {
         flex: 1,
         backgroundColor: '#111',
-        borderRadius: 5,
         overflow: 'hidden',
         position: 'relative',
     },
@@ -94,7 +92,6 @@ export const gameStyles = StyleSheet.create({
         flexDirection: 'row',
     },
     profileDataContainer: {
-        flex: 1,
         paddingLeft: 4,
         alignSelf: 'center',
     },
@@ -103,4 +100,28 @@ export const gameStyles = StyleSheet.create({
         height: 140,
         overflow: 'hidden',
     },
+
+    gameContainer: {
+        flex: 1,
+        zIndex: 1,
+    },
+    gameTerminal: {
+        width: Dimensions.get('window').width,
+        height: Dimensions.get('window').height,
+    },
+    gameConsole: {
+        flex: 1,
+        backgroundColor: '#c1c0be',
+        borderBottomRightRadius: 10,
+        borderTopRightRadius: 10,
+        width: Dimensions.get('window').width,
+        height: Dimensions.get('window').height,
+    },
+    gameTasksContainer: {
+        flex: 1,
+        backgroundColor: '#000000',
+        padding: 5,
+        width: Dimensions.get('window').width,
+        height: Dimensions.get('window').height,
+    }, 
 });

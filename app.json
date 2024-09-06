@@ -23,6 +23,7 @@
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
+      "softwareKeyboardLayoutMode": "pan",
       "package": "com.elysium.interceptor",
       "runtimeVersion": "1.0.0"
     },

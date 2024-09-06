@@ -1,18 +1,18 @@
-// app/GameScreen.tsx
+// app/HomeScreen.tsx
 import React, { useState } from 'react';
 import { BackHandler, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { gameStyles as styles } from '../assets/styles/gameStyle';
-import FlickerOverlay from '../components/game/FlickerOverlay';
-import ScanlineOverlay from '../components/game/ScanlineOverlay';
-import LogDisplay from '../components/game/LogDisplay';
-import CommandInput from '../components/game/CommandInput';
+import FlickerOverlay from '../components/FlickerOverlay';
+import ScanlineOverlay from '../components/ScanlineOverlay';
+import LogDisplay from '../components/LogDisplay';
+import CommandInput from '../components/CommandInput';
 import { useScanlineAnimation } from '../hooks/useScanlineAnimation';
 import { useFlickerAnimation } from '../hooks/useFlickerAnimation';
 import { router } from 'expo-router';
 
-const GameScreen: React.FC = () => {
-    const [logs, setLogs] = useState(['Use HELP command to view the list of commands.']);
+const HomeScreen: React.FC = () => {
+    const [logs, setLogs] = useState<string[]>(['Use HELP command to view the list of commands.']);
     const [input, setInput] = useState('');
     const [history, setHistory] = useState<string[]>([]);
 
@@ -51,7 +51,7 @@ const GameScreen: React.FC = () => {
                 BackHandler.exitApp();
                 break;
             default:
-                newLogs.push(`Unknown command: ${text}. Use \ihelp\i to see all available commands.`);
+                newLogs.push(`Unknown command: ${text}. Use help to see all available commands.`);
                 break;
         }
 
@@ -74,4 +74,4 @@ const GameScreen: React.FC = () => {
     );
 };
 
-export default GameScreen;
+export default HomeScreen;

@@ -2,7 +2,7 @@
 import React from 'react';
 import { Animated, Dimensions } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import { gameStyles as styles } from '../../assets/styles/gameStyle';
+import { gameStyles as styles } from '../assets/styles/gameStyle';
 
 interface ScanlineOverlayProps {
     scanlineAnim: Animated.Value;
