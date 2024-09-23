@@ -2,13 +2,16 @@ import React, { useState, useEffect } from 'react';
 import { ScrollView, StyleProp, Text } from 'react-native';
 import { gameStyles as styles } from '../assets/styles/gameStyle';
 import useTypewriterAnimation from '../hooks/useTypewriterAnimation';
+import { Contract } from '../models/Contract';
+import ParsedText from 'react-native-parsed-text';
 
-interface LogDisplayProps {
+interface GameDisplayProps {
     logs: string[];
+    contract: Contract;
     style: StyleProp<any>;
 }
 
-const LogDisplay: React.FC<LogDisplayProps> = ({ logs, style }) => {
+const GameDisplay: React.FC<GameDisplayProps> = ({ logs, contract, style }) => {
     const [currentLogIndex, setCurrentLogIndex] = useState(0);
 
     useEffect(() => {
@@ -32,17 +35,19 @@ const LogDisplay: React.FC<LogDisplayProps> = ({ logs, style }) => {
     );
 };
 
+
+
 const AnimatedLog: React.FC<{ text: string; onComplete?: () => void }> = ({ text, onComplete }) => {
+
     const { displayedText } = useTypewriterAnimation(text, { onComplete });
 
-    if(displayedText.includes(':')) {
-        const [prefix, suffix] = displayedText.split(':');
-        return (
-            <Text style={styles.specialText}>{prefix}:  <Text style={styles.logText}>{suffix}</Text></Text>
-        );
-    }
+    return (
+        <ParsedText
+            style={styles.logText} >
+            {displayedText}
+        </ParsedText>
+    );
 
-    return <Text style={styles.logText}>{displayedText}</Text>;
 };
 
-export default LogDisplay;
+export default GameDisplay;

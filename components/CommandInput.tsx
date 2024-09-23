@@ -11,14 +11,16 @@ interface CommandInputProps {
 
 const CommandInput: React.FC<CommandInputProps> = ({ input, setInput, handleCommand }) => {
     return (
-        <TextInput
-            style={[styles.input]}
-            value={input}
-            onChangeText={setInput}
-            onSubmitEditing={() => handleCommand(input)}
-            placeholder=">_"
-            placeholderTextColor="#888"
-        />
+            <TextInput
+                style={[styles.input]}
+                value={input}
+                onChangeText={setInput}
+                onSubmitEditing={() => handleCommand(input)}
+                placeholder=">_"
+                placeholderTextColor="#4CAF50"
+                autoCorrect={false}
+                autoCapitalize="none"
+            />
     );
 };
 

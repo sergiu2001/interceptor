@@ -1,6 +1,6 @@
 // app/HomeScreen.tsx
 import React, { useState } from 'react';
-import { BackHandler, View } from 'react-native';
+import { BackHandler, View, Image, Text } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { gameStyles as styles } from '../assets/styles/gameStyle';
 import FlickerOverlay from '../components/FlickerOverlay';
@@ -27,7 +27,7 @@ const HomeScreen: React.FC = () => {
         switch (command) {
             case 'help':
                 newLogs.push('This is the list of available commands:');
-                newLogs.push('SCAN, PROFILE, SYS, CLC, EXIT');
+                newLogs.push('\t'.repeat(3) + '~ SCAN\n' + '\t'.repeat(3) + '~ PROFILE\n' + '\t'.repeat(3) + '~ SYS\n' + '\t'.repeat(3) + '~ CLC\n' + '\t'.repeat(3) + '~ EXIT');
                 break;
             case 'scan':
                 newLogs.push('Scanning for contracts...');
@@ -64,6 +64,13 @@ const HomeScreen: React.FC = () => {
         <SafeAreaView style={styles.container}>
             <View style={styles.bezel}>
                 <View style={styles.crt}>
+                    <View style={styles.logoContainer}>
+                        <Image
+                            style={styles.logo}
+                            source={require('../assets/images/avatars/terminusF.png')}
+                        />
+                        <Text style={styles.logoText}>TERMINUS</Text>
+                    </View>
                     <FlickerOverlay flickerAnim={flickerAnim} />
                     <ScanlineOverlay scanlineAnim={scanlineAnim} />
                     <LogDisplay style={styles.logContainer} logs={logs} />

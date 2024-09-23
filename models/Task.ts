@@ -2,32 +2,50 @@
 
 export class Task {
     id: string;
+    descriptionTemplate: string;
     description: string;
+    regex: string;
     rule: (input: string) => boolean;
-    completed: boolean;
+    completed: number;
+    params: { [key: string]: string | number }; // Parameters for dynamic templates
 
-    constructor(id: string, description: string, rule: (input: string) => boolean) {
+    constructor(
+        id: string,
+        descriptionTemplate: string,
+        rule: (input: string) => boolean,
+        params: { [key: string]: string | number } = {},
+        regex: string = '',
+    ) {
         this.id = id;
-        this.description = description;
+        this.descriptionTemplate = descriptionTemplate;
         this.rule = rule;
-        this.completed = false;
+        this.completed = 0;
+        this.params = params;
+        this.description = this.interpolateDescription(descriptionTemplate, params);
+        this.regex = regex;
+    }
+
+    interpolateDescription(template: string, params: { [key: string]: string | number }): string {
+        // Replace placeholders in the template with values from params
+        return template.replace(/{(\w+)}/g, (_, key) => String(params[key] || ''));
+    }
+
+    isCompletion(): number {
+        return this.completed;
     }
 
     validate(input: string): boolean {
         return this.rule(input);
     }
+
+    markCompleted(): void {
+        this.completed = 1;
+    }
+
+    resetCompletion(): void {
+        this.completed = 2;
+    }
+    getRule(): string {
+        return this.regex;
+    }
 }
-
-// Example Task Implementations
-
-export const exampleTasks: Task[] = [
-    new Task('1', 'Password must be at least 7 characters long', (input) => input.length >= 7),
-    new Task('2', 'Password must contain at least one number', (input) => /\d/.test(input)),
-    new Task('3', 'Password must contain an uppercase letter', (input) => /[A-Z]/.test(input)),
-    new Task('4', 'Password must contain a special character', (input) => /[!@#$%^&*(),.?":{}|<>]/.test(input)),
-    new Task('5', 'The sum of digits must be 25', (input) => {
-        const digits = input.match(/\d/g);
-        return digits ? digits.map(Number).reduce((a, b) => a + b, 0) === 25 : false;
-    }),
-    // Add more tasks as needed
-];

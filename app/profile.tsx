@@ -28,7 +28,7 @@ const ProfileScreen: React.FC = () => {
         switch (command) {
             case 'help':
                 newLogs.push('This is the list of available commands:');
-                newLogs.push('BACK, REP, XP, CRED, LOCATION, STAT, HISTORY');
+                newLogs.push('\t'.repeat(3)+'~ BACK\n'+'\t'.repeat(3)+'~ REP\n'+'\t'.repeat(3)+'~ XP\n'+'\t'.repeat(3)+'~ CRED\n'+'\t'.repeat(3)+'~ LOCATION\n'+'\t'.repeat(3)+'~ STAT\n'+'\t'.repeat(3)+'~ HISTORY');
                 break;
             case 'rep':
                 newLogs.push('Your reputation is LORD.');    

@@ -1,4 +1,8 @@
 import { Stack } from "expo-router";
+import { setBackgroundColorAsync} from "expo-system-ui";
+import { Colors } from "react-native/Libraries/NewAppScreen";
+
+setBackgroundColorAsync(Colors.black);
 
 export default function RootLayout() {
   return (

@@ -1,49 +1,73 @@
 // app/GameScreen.tsx
 import React, { useState } from 'react';
-import { Dimensions, ScrollView, View, FlatList } from 'react-native';
+import { Dimensions, ScrollView, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { gameStyles as styles } from '../assets/styles/gameStyle';
 import FlickerOverlay from '../components/FlickerOverlay';
 import ScanlineOverlay from '../components/ScanlineOverlay';
-import LogDisplay from '../components/LogDisplay';
-import CommandInput from '../components/CommandInput';
+import GameDisplay from '../components/GameDisplay';
+import GameInput from '../components/GameInput';
 import { useScanlineAnimation } from '../hooks/useScanlineAnimation';
 import { useFlickerAnimation } from '../hooks/useFlickerAnimation';
 import { router } from 'expo-router';
-import { Contract } from '@/models/Contract';
+import { Contract } from '../models/Contract';
+import { Difficulty } from '../models/Difficulty';
+import TaskDisplay from '../components/TaskDisplay';
 
 const GameScreen: React.FC = () => {
     const [logs, setLogs] = useState<string[]>([]);
     const [input, setInput] = useState('');
-    const [history, setHistory] = useState<string[]>([]);
+
+    const [contract, setContract] = useState<Contract>(new Contract(Difficulty.Initiate));
+
+    const [inputHistory, setInputHistory] = useState<string[]>([]);
+    const [historyIndex, setHistoryIndex] = useState<number>(-1);
+    const MAX_HISTORY = 10;
 
     const scanlineAnim = useScanlineAnimation();
     const flickerAnim = useFlickerAnimation();
 
     const handleCommand = (text: string) => {
         let newLogs = [...logs, `~$: ${text}`];
-        let newHistory = [...history, text];
-        const command = text.trim().toLowerCase();
+        const command = text.trim();
 
         switch (command) {
-            case 'help':
-                newLogs.push('This is the list of available commands:');
-                newLogs.push('ABANDON');
-                break;
             case 'abandon':
                 router.replace('./')
                 break;
             default:
-                newLogs.push(`Unknown command ${text}. Use HELP to see all available commands.`);
+                contract.tasks.slice(0, contract.currentTaskIndex + 1).map((task) => contract.validateTask(task, command));
+                if (contract.isCurentTaskCompleted()) {
+                    contract.currentTaskIndex++;
+                }
+                setContract(contract);
                 break;
         }
 
+        if (command != ""){
+            const updatedHistory = [input, ...inputHistory].slice(0, MAX_HISTORY);
+            setInputHistory(updatedHistory);
+            setHistoryIndex(-1);
+        }
+
         setLogs(newLogs);
-        setHistory(newHistory);
         setInput('');
     };
 
-    const contract = new Contract();
+    const handleHistory = () => {
+
+        if (inputHistory.length === 0) return;
+
+        const newIndex = (historyIndex + 1) % (inputHistory.length + 1);
+        setHistoryIndex(newIndex);
+
+        if (newIndex === inputHistory.length) {
+            setInput('');
+        } else {
+            setInput(inputHistory[newIndex]);
+        }
+
+    }
 
     return (
         <SafeAreaView style={styles.container}>
@@ -55,15 +79,15 @@ const GameScreen: React.FC = () => {
                     <View style={styles.crt}>
                         <FlickerOverlay flickerAnim={flickerAnim} />
                         <ScanlineOverlay scanlineAnim={scanlineAnim} />
-                        <LogDisplay style={styles.logContainer} logs={logs} />
-                        <CommandInput input={input} setInput={setInput} handleCommand={handleCommand} />
+                        <GameDisplay logs={logs} contract={contract} style={styles.logContainer} />
+                        <GameInput input={input} setInput={setInput} handleCommand={handleCommand} handleHistory={handleHistory} />
                     </View>
                 </View>
                 <View style={[styles.bezel, styles.gameTasksContainer]}>
                     <View style={styles.crt}>
                         <FlickerOverlay flickerAnim={flickerAnim} />
                         <ScanlineOverlay scanlineAnim={scanlineAnim} />
-                        {/* <FlatList></FlatList> */}
+                        <TaskDisplay contract={contract} />
                     </View>
                 </View>
             </ScrollView>

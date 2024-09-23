@@ -1,4 +1,4 @@
-// src/components/AnimatedComponents/FlickerOverlay.tsx
+// src/components/FlickerOverlay.tsx
 import React from 'react';
 import { Animated } from 'react-native';
 import Svg, { Defs, Rect, Pattern } from 'react-native-svg';

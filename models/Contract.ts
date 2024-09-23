@@ -1,17 +1,21 @@
 // models/Contract.ts
 import { Task } from './Task';
+import { Difficulty } from './Difficulty';
+import { TaskFactory } from './TaskFactory';
 
 export class Contract {
     tasks: Task[];
     currentTaskIndex: number;
     createdAt: Date;
     expirationTime: number;
+    difficulty: Difficulty;
 
-    constructor(tasks: Task[] = [], expirationTime: number = 24 * 60 * 60 * 1000) {
-        this.tasks = tasks;
+    constructor(difficulty: Difficulty, expirationTime: number = 24 * 60 * 60 * 1000) {
+        this.tasks = TaskFactory.createTasksForDifficulty(difficulty);
         this.currentTaskIndex = 0;
         this.createdAt = new Date();
         this.expirationTime = expirationTime;
+        this.difficulty = difficulty;
     }
 
     isExpired(): boolean {
@@ -19,21 +23,15 @@ export class Contract {
         return now > this.createdAt.getTime() + this.expirationTime;
     }
 
-    getCurrentTask(): Task | undefined {
-        return this.tasks[this.currentTaskIndex];
-    }
-
-    completeCurrentTask(userInput: string): boolean {
-        const currentTask = this.getCurrentTask();
-        if (currentTask && currentTask.validate(userInput)) {
-            currentTask.completed = true;
-            this.currentTaskIndex++;
-            return true;
+    validateTask(task: Task, input: string): Task {
+        if (task.validate(input)) {
+            task.markCompleted();
+        }else {
+            task.resetCompletion();
         }
-        return false;
+        return task;
     }
-
-    areAllTasksCompleted(): boolean {
-        return this.currentTaskIndex >= this.tasks.length;
+    isCurentTaskCompleted(): boolean {
+        return this.tasks[this.currentTaskIndex].isCompletion() === 1;
     }
 }

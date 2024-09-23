@@ -1,4 +1,4 @@
-// src/components/AnimatedComponents/ScanlineOverlay.tsx
+// src/components/ScanlineOverlay.tsx
 import React from 'react';
 import { Animated, Dimensions } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
