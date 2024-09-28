@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
 
 interface UseTypewriterAnimationOptions {
-    typingSpeed?: number; // Milliseconds between each character
-    onComplete?: () => void; // Callback when typing is complete
-    blinkSpeed?: number;     // Milliseconds for the blinking underscore toggle
+    typingSpeed?: number;
+    onComplete?: () => void;
+    blinkSpeed?: number;
 }
 
 const useTypewriterAnimation = (
@@ -13,9 +13,8 @@ const useTypewriterAnimation = (
     const [displayedText, setDisplayedText] = useState('');
     const [index, setIndex] = useState(0);
     const [isComplete, setIsComplete] = useState(false);  
-    const [showUnderscore, setShowUnderscore] = useState(true);  // For blinking effect
+    const [showUnderscore, setShowUnderscore] = useState(true);
 
-    // Typing effect
     useEffect(() => {
         if (index < text.length) {
             const timeoutId = setTimeout(() => {
@@ -25,12 +24,11 @@ const useTypewriterAnimation = (
 
             return () => clearTimeout(timeoutId);
         } else if (!isComplete) {
-            setIsComplete(true);  // Set complete when animation finishes
+            setIsComplete(true);
             if (onComplete) onComplete();
         }
     }, [index, text, typingSpeed, onComplete, isComplete]);
 
-    // Blinking underscore effect
     useEffect(() => {
         if (!isComplete) {
             const blinkIntervalId = setInterval(() => {
@@ -42,8 +40,8 @@ const useTypewriterAnimation = (
     }, [isComplete, blinkSpeed]);
 
     const displayedTextWithUnderscore = isComplete
-        ? displayedText // No underscore after completion
-        : `${displayedText}${showUnderscore ? '_' : ' '}`; // Append blinking underscore
+        ? displayedText 
+        : `${displayedText}${showUnderscore ? '_' : ' '}`;
 
     return { displayedText: displayedTextWithUnderscore, isComplete };
 };

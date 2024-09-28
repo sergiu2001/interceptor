@@ -1,9 +1,9 @@
 // src/hooks/useScanlineAnimation.ts
-import { useEffect, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { Animated } from 'react-native';
 
 export const useScanlineAnimation = () => {
-    const scanlineAnim = useState(new Animated.Value(0))[0];
+    const scanlineAnim = useRef(new Animated.Value(0)).current;
 
     useEffect(() => {
         Animated.loop(

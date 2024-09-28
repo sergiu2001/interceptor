@@ -2,10 +2,9 @@ import { StyleSheet, Dimensions } from 'react-native';
 
 export const gameStyles = StyleSheet.create({
     specialText: {
-        color: '#00BB00',
-        textShadowColor: '#FF0000BF',
-        textShadowOffset: { width: 1.5, height: 1 },
-        textShadowRadius: 4,
+        color: '#00FF00',
+        fontFamily: 'VT323Regular',
+        fontSize: 21,
     },
     container: {
         flex: 1,
@@ -67,19 +66,10 @@ export const gameStyles = StyleSheet.create({
         alignItems: 'center',
     },
     logo: {
-        width: 200,
+        width: 230,
         height: 200,
+        resizeMode: 'stretch',
     },
-    logoText: {
-        fontFamily: 'SpaceMonoRegular',
-        color: '#00B000',
-        fontSize: 30,
-        textShadowColor: '#FF0000BF',
-        textShadowOffset: { width: 1.5, height: 1 },
-        textShadowRadius: 4,
-        textAlign: 'center',
-    },
-
     logContainer: {
         flex: 1,
         paddingTop: 20,
@@ -87,10 +77,9 @@ export const gameStyles = StyleSheet.create({
         paddingHorizontal: 10,
     },
     logText: {
-        color: '#00B000',
-        textShadowColor: '#FF0000BF',
-        textShadowOffset: { width: 1.5, height: 1 },
-        textShadowRadius: 4,
+        fontFamily: 'VT323Regular',
+        fontSize: 21,
+        color: '#00FF00',
     },
 
     input: {
@@ -101,7 +90,8 @@ export const gameStyles = StyleSheet.create({
         paddingHorizontal: 10,
         backgroundColor: '#000000',
         borderRadius: 3,
-        fontSize: 16,
+        fontSize: 21,
+        fontFamily: 'VT323Regular',
         zIndex: 3,
     },
 
@@ -111,11 +101,11 @@ export const gameStyles = StyleSheet.create({
     },
     profileDataContainer: {
         paddingLeft: 4,
-        paddingTop: 20,
+        paddingTop: 10,
     },
     avatar: {
-        width: 140,
-        height: 140,
+        maxWidth: 150,
+        maxHeight: 180,
         overflow: 'hidden',
     },
 
@@ -156,30 +146,24 @@ export const gameStyles = StyleSheet.create({
     },
     taskText: {
         color: '#FFFFFF',
-        fontSize: 17,
-        textShadowColor: '#0000FFBF',
-        textShadowOffset: { width: 1.5, height: 1 },
-        textShadowRadius: 4,
+        fontFamily: 'VT323Regular',
+        fontSize: 21,
         textAlign: 'justify',
     },
     taskCompletedText: {
-        color: '#00B000',
-        fontSize: 17,
-        textShadowColor: '#FF0000BF',
-        textShadowOffset: { width: 1.5, height: 1 },
-        textShadowRadius: 4,
+        color: '#00FF00',
+        fontFamily: 'VT323Regular',
+        fontSize: 21,
         textDecorationLine: 'line-through',
         textAlign: 'justify',
     },
     taskIncompleteText: {
         color: '#7A100F',
-        fontSize: 17,
-        textShadowColor: '#7A100FBF',
-        textShadowOffset: { width: 1.5, height: 1 },
-        textShadowRadius: 4,
+        fontFamily: 'VT323Regular',
+        fontSize: 21,
         textAlign: 'justify',
     },
-    
+
     gameInputContainer: {
         display: 'flex',
         flexDirection: 'row',
@@ -194,7 +178,8 @@ export const gameStyles = StyleSheet.create({
         paddingHorizontal: 10,
         backgroundColor: '#000000',
         borderRadius: 3,
-        fontSize: 16,
+        fontSize: 21,
+        fontFamily: 'VT323Regular',
         zIndex: 3,
     },
     gameInputButton: {

@@ -49,10 +49,7 @@
       [
         "expo-font",
         {
-          "fonts": [
-            "./assets/fonts/VT323-Regular.ttf",
-            "./assets/fonts/SpaceMonoRegular.ttf"
-          ]
+          "fonts": []
         }
       ]
     ]

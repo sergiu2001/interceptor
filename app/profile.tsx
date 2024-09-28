@@ -1,6 +1,6 @@
 // app/ProfileScreen.tsx
 import React, { useState } from 'react';
-import { Text, View, Image, ScrollView } from 'react-native';
+import { Text, View, Image, ScrollView, Animated } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { gameStyles as styles } from '../assets/styles/gameStyle';
 import FlickerOverlay from '../components/FlickerOverlay';
@@ -72,7 +72,7 @@ const ProfileScreen: React.FC = () => {
                             <LogDisplay style={styles.profileDataContainer} logs={plogs} />
                             <Image
                                 style={styles.avatar}
-                                source={require('../assets/images/avatars/mustache.png')}
+                                source={require('../assets/images/avatars/mustacheF.png')}
                             />
                         </View>
                         <LogDisplay style={styles.logContainer} logs={logs} />

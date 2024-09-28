@@ -1,9 +1,9 @@
 // src/hooks/useFlickerAnimation.ts
-import { useEffect, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { Animated } from 'react-native';
 
 export const useFlickerAnimation = () => {
-    const flickerAnim = useState(new Animated.Value(0))[0];
+    const flickerAnim = useRef(new Animated.Value(0)).current;
 
     useEffect(() => {
         const flickerKeyframes = [

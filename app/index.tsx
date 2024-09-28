@@ -69,7 +69,6 @@ const HomeScreen: React.FC = () => {
                             style={styles.logo}
                             source={require('../assets/images/avatars/terminusF.png')}
                         />
-                        <Text style={styles.logoText}>TERMINUS</Text>
                     </View>
                     <FlickerOverlay flickerAnim={flickerAnim} />
                     <ScanlineOverlay scanlineAnim={scanlineAnim} />
