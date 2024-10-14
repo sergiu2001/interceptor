@@ -64,17 +64,18 @@ export const gameStyles = StyleSheet.create({
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
+        paddingTop: 10,
     },
     logo: {
-        width: 230,
-        height: 200,
+        width: 225,
+        height: 210,
         resizeMode: 'stretch',
     },
     logContainer: {
         flex: 1,
         paddingTop: 20,
         paddingBottom: 20,
-        paddingHorizontal: 10,
+        paddingHorizontal: 20,
     },
     logText: {
         fontFamily: 'VT323Regular',

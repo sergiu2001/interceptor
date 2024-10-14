@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "Interceptor",
+    "name": "Terminus: Codex",
     "slug": "interceptor",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -23,8 +23,9 @@
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.elysium.interceptor",
-      "runtimeVersion": "1.0.0"
+      "package": "com.invictus.terminus",
+      "runtimeVersion": "1.0.0",
+      "googleServicesFile": "./android/app/google-services.json"
     },
     "web": {
       "bundler": "metro",
@@ -46,12 +47,7 @@
       "url": "https://u.expo.dev/77c9af83-3532-44f5-93d8-58dce67112e2"
     },
     "plugins": [
-      [
-        "expo-font",
-        {
-          "fonts": []
-        }
-      ]
+      
     ]
   }
 }

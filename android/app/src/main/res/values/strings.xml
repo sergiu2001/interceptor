@@ -1,7 +1,8 @@
 <resources>
-  <string name="app_name">Interceptor</string>
+  <string name="app_name">Terminus: Codex</string>
   <string name="expo_splash_screen_resize_mode" translatable="false">cover</string>
   <string name="expo_splash_screen_status_bar_translucent" translatable="false">false</string>
   <string name="expo_system_ui_user_interface_style" translatable="false">dark</string>
   <string name="expo_runtime_version">1.0.0</string>
+  <string translatable="false" name="game_services_project_id"> 517790857391 </string>
 </resources>
