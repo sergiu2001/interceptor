@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -8,19 +9,26 @@ import LogDisplay from '../components/LogDisplay';
 import CommandInput from '../components/CommandInput';
 import { useScanlineAnimation } from '../hooks/useScanlineAnimation';
 import { useFlickerAnimation } from '../hooks/useFlickerAnimation';
-import { router } from 'expo-router';
 import { logIn, signUp } from '../services/firebaseAuthService';
 import { createUserProfile, getUserProfile } from '../services/firebaseFirestoreService';
 
 const AuthScreen: React.FC = () => {
-    const [logs, setLogs] = useState<string[]>(['Welcome to Codex Porta. Type LOGIN or SIGNUP to proceed.']);
+    const [logs, setLogs] = useState<string[]>([
+        'Welcome to Codex Porta. Type LOGIN or SIGNUP to proceed.',
+    ]);
     const [input, setInput] = useState('');
     const [history, setHistory] = useState<string[]>([]);
-    const [step, setStep] = useState<'choice' | 'loginEmail' | 'loginPassword' | 'signupEmail' | 'signupPassword' | 'signupUsername'>('choice');
+    const [step, setStep] = useState<
+        | 'choice'
+        | 'loginEmail'
+        | 'loginPassword'
+        | 'signupEmail'
+        | 'signupPassword'
+        | 'signupUsername'
+    >('choice');
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
     const [username, setUsername] = useState<string>('');
-
     const scanlineAnim = useScanlineAnimation();
     const flickerAnim = useFlickerAnimation();
 
@@ -51,16 +59,12 @@ const AuthScreen: React.FC = () => {
                     setPassword(text);
                     await logIn(email, text);
                     newLogs.push('Login successful. Retrieving profile...');
-
-                    // Fetch the user profile from Firestore
                     const profile = await getUserProfile();
                     if (profile) {
                         newLogs.push(`Welcome back, ${profile.alias}.`);
                     } else {
                         newLogs.push('No profile found. Please try again later.');
                     }
-
-                    setTimeout(() => router.replace('./'), 1000);
                 } catch (error: any) {
                     newLogs.push(`Login failed: ${error.message}`);
                 }
@@ -78,22 +82,18 @@ const AuthScreen: React.FC = () => {
             case 'signupUsername':
                 try {
                     const username = text;
-                    setUsername(username); // Store the username
-
-                    // Sign up the user
+                    setUsername(username);
                     await signUp(email, password, username);
-
-                    // Create the user's profile in Firestore
-                    await createUserProfile(username, 'default-avatar.png'); // Example avatar, you can change this
-
-                    newLogs.push(`Signup successful. Welcome, ${username}. Redirecting...`);
-                    setTimeout(() => router.replace('./'), 1000);
+                    await createUserProfile(username, 'default-avatar.png');
+                    newLogs.push(`Signup successful. Welcome, ${username}.`);
                 } catch (error: any) {
                     newLogs.push(`Signup failed: ${error.message}`);
                 }
                 break;
             default:
-                newLogs.push(`Unknown command: ${text}. Use HELP to see all available commands.`);
+                newLogs.push(
+                    `Unknown command: ${text}. Use HELP to see all available commands.`
+                );
                 break;
         }
 
@@ -109,7 +109,11 @@ const AuthScreen: React.FC = () => {
                     <FlickerOverlay flickerAnim={flickerAnim} />
                     <ScanlineOverlay scanlineAnim={scanlineAnim} />
                     <LogDisplay style={styles.logContainer} logs={logs} />
-                    <CommandInput input={input} setInput={setInput} handleCommand={handleCommand} />
+                    <CommandInput
+                        input={input}
+                        setInput={setInput}
+                        handleCommand={handleCommand}
+                    />
                 </View>
             </View>
         </SafeAreaView>

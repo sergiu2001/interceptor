@@ -49,5 +49,5 @@ export default {
     updates: {
         url: "https://u.expo.dev/77c9af83-3532-44f5-93d8-58dce67112e2"
     },
-    plugins: []
+    plugins: ["expo-secure-store"]
 };
