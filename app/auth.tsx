@@ -11,6 +11,7 @@ import { useScanlineAnimation } from '../hooks/useScanlineAnimation';
 import { useFlickerAnimation } from '../hooks/useFlickerAnimation';
 import { logIn, signUp } from '../services/firebaseAuthService';
 import { createUserProfile, getUserProfile } from '../services/firebaseFirestoreService';
+import { FirebaseError } from 'firebase/app';
 
 const AuthScreen: React.FC = () => {
     const [logs, setLogs] = useState<string[]>([
@@ -28,7 +29,6 @@ const AuthScreen: React.FC = () => {
     >('choice');
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
-    const [username, setUsername] = useState<string>('');
     const scanlineAnim = useScanlineAnimation();
     const flickerAnim = useFlickerAnimation();
 
@@ -56,7 +56,6 @@ const AuthScreen: React.FC = () => {
                 break;
             case 'loginPassword':
                 try {
-                    setPassword(text);
                     await logIn(email, text);
                     newLogs.push('Login successful. Retrieving profile...');
                     const profile = await getUserProfile();
@@ -66,7 +65,7 @@ const AuthScreen: React.FC = () => {
                         newLogs.push('No profile found. Please try again later.');
                     }
                 } catch (error: any) {
-                    newLogs.push(`Login failed: ${error.message}`);
+                    newLogs.push(`Login failed: ${new FirebaseError(error.code, error.message)}`);
                 }
                 break;
             case 'signupEmail':
@@ -81,13 +80,10 @@ const AuthScreen: React.FC = () => {
                 break;
             case 'signupUsername':
                 try {
-                    const username = text;
-                    setUsername(username);
-                    await signUp(email, password, username);
-                    await createUserProfile(username, 'default-avatar.png');
-                    newLogs.push(`Signup successful. Welcome, ${username}.`);
+                    await signUp(email, password);
+                    await createUserProfile(text, '../assets/images/avatars/mustacheF.png');
                 } catch (error: any) {
-                    newLogs.push(`Signup failed: ${error.message}`);
+                    newLogs.push(`Signup failed: ${new FirebaseError(error.code, error.message)}`);
                 }
                 break;
             default:

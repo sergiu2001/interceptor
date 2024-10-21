@@ -1,5 +1,6 @@
-import { auth } from '../android/app/firebaseConfig';
+import { auth } from '../firebaseConfig';
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
+import { FirebaseError } from 'firebase/app';
 
 // Log In function
 export const logIn = async (email: string, password: string) => {
@@ -12,12 +13,10 @@ export const logIn = async (email: string, password: string) => {
 };
 
 // Sign Up function
-export const signUp = async (email: string, password: string, username: string) => {
+export const signUp = async (email: string, password: string) => {
     try {
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
         const user = userCredential.user;
-
-        await updateProfile(user, { displayName: username });
 
         return user;
     } catch (error: any) {

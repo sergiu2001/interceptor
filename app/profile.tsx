@@ -1,6 +1,6 @@
 // app/ProfileScreen.tsx
 import React, { useState } from 'react';
-import { Text, View, Image, ScrollView, Animated } from 'react-native';
+import { View, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { gameStyles as styles } from '../assets/styles/gameStyle';
 import FlickerOverlay from '../components/FlickerOverlay';
@@ -10,6 +10,7 @@ import CommandInput from '../components/CommandInput';
 import { useScanlineAnimation } from '../hooks/useScanlineAnimation';
 import { useFlickerAnimation } from '../hooks/useFlickerAnimation';
 import { router } from 'expo-router';
+import Avatar from '../components/Avatar';
 
 const ProfileScreen: React.FC = () => {
     const [plogs, setPLogs] = useState<string[]>(['ALIAS: starlord', 'REPUTATION: lord', 'TROJANS: 5000', 'LOCATION: New Vega System', 'STATUS: active']);
@@ -70,9 +71,8 @@ const ProfileScreen: React.FC = () => {
                     <ScrollView>
                         <View style={styles.profileContainer}>
                             <LogDisplay style={styles.profileDataContainer} logs={plogs} />
-                            <Image
-                                style={styles.avatar}
-                                source={require('../assets/images/avatars/mustacheF.png')}
+                            <Avatar
+                                avatarPath={'avatar1F.png'}
                             />
                         </View>
                         <LogDisplay style={styles.logContainer} logs={logs} />

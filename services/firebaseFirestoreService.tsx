@@ -1,6 +1,6 @@
 // src/services/firebaseFirestoreService.tsx
 
-import { db, auth } from '../android/app/firebaseConfig';
+import { db, auth } from '../firebaseConfig';
 import { doc, setDoc, getDoc, updateDoc } from 'firebase/firestore';
 import { Profile } from '../models/Profile';
 

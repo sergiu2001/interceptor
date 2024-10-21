@@ -4,7 +4,7 @@ export const gameStyles = StyleSheet.create({
     specialText: {
         color: '#00FF00',
         fontFamily: 'VT323Regular',
-        fontSize: 21,
+        fontSize: 17,
     },
     container: {
         flex: 1,
@@ -79,7 +79,7 @@ export const gameStyles = StyleSheet.create({
     },
     logText: {
         fontFamily: 'VT323Regular',
-        fontSize: 21,
+        fontSize: 17,
         color: '#00FF00',
     },
 
@@ -91,7 +91,7 @@ export const gameStyles = StyleSheet.create({
         paddingHorizontal: 10,
         backgroundColor: '#000000',
         borderRadius: 3,
-        fontSize: 21,
+        fontSize: 17,
         fontFamily: 'VT323Regular',
         zIndex: 3,
     },

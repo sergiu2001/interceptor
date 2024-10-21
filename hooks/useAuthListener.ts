@@ -1,6 +1,6 @@
 // hooks/useAuthListener.ts
 import { useState, useEffect } from 'react';
-import { auth } from '../android/app/firebaseConfig';
+import { auth } from '../firebaseConfig';
 import { onAuthStateChanged, User } from 'firebase/auth';
 
 export const useAuthListener = () => {
