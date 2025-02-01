@@ -1,24 +1,47 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { Image, View } from 'react-native';
+import { downloadAvatarImage } from '@/services/firebaseStorageService';
+import { useTheme } from '@/components/ThemeContext';
 import FastImage from 'react-native-fast-image';
-import useAvatarUri from '../hooks/useAvatarURI';
-import { gameStyles as styles } from '../assets/styles/gameStyle';
 
 interface AvatarProps {
-    avatarPath: string;
+    avatarName: string;
 }
 
-const Avatar: React.FC<AvatarProps> = ({ avatarPath }) => {
-    const imageUri = useAvatarUri(avatarPath);
+const Avatar: React.FC<AvatarProps> = ({ avatarName }) => {
+    const { themeStyles, setTheme } = useTheme();
+    const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
+    const [isLoading, setIsLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchAvatarUrl = async () => {
+            try {
+                const url = await downloadAvatarImage(avatarName);
+                setAvatarUrl(url);
+            } catch (error) {
+                console.error('Error fetching avatar image:', error);
+            } finally {
+                setIsLoading(false);
+            }
+        };
+
+        fetchAvatarUrl();
+    }, [avatarName]);
 
     return (
-        <FastImage
-            style={styles.avatar}
-            source={{
-                uri: imageUri ?? undefined,
-                priority: FastImage.priority.high,
-            }}
-            resizeMode={FastImage.resizeMode.cover}
-        />
+        <View>
+            {!isLoading && avatarUrl ? (
+                <FastImage
+                    source={{ uri: avatarUrl}}
+                    style={themeStyles.avatar}
+                />
+            ) : !isLoading && (
+                <Image
+                    style={themeStyles.avatar}
+                    source={require('../assets/images/avatars/mustacheF.png')}
+                />
+            )}
+        </View>
     );
 };
 

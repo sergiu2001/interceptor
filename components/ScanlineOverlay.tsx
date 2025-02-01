@@ -2,13 +2,14 @@
 import React from 'react';
 import { Animated, Dimensions } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import { gameStyles as styles } from '../assets/styles/gameStyle';
+import { useTheme } from '@/components/ThemeContext';
 
 interface ScanlineOverlayProps {
     scanlineAnim: Animated.Value;
 }
 
 const ScanlineOverlay: React.FC<ScanlineOverlayProps> = ({ scanlineAnim }) => {
+    const { themeStyles, setTheme } = useTheme();
     const scanlineStyle = {
         transform: [
             {
@@ -21,10 +22,10 @@ const ScanlineOverlay: React.FC<ScanlineOverlayProps> = ({ scanlineAnim }) => {
     };
 
     return (
-        <Animated.View style={[styles.scanlineContainer, scanlineStyle]}>
+        <Animated.View style={[themeStyles.scanlineContainer, scanlineStyle]}>
             <LinearGradient
                 colors={['rgba(0, 0, 0, 0.05)', 'rgba(0, 0, 0, 0.1)', 'rgba(0, 0, 0, 0.05)']}
-                style={styles.scanline}
+                style={themeStyles.scanline}
             />
         </Animated.View>
     );

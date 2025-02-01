@@ -2,25 +2,26 @@
 import React from 'react';
 import { Animated } from 'react-native';
 import Svg, { Defs, Rect, Pattern } from 'react-native-svg';
-import { gameStyles as styles } from '../assets/styles/gameStyle';
+import { useTheme } from '@/components/ThemeContext';
 
 interface FlickerOverlayProps {
     flickerAnim: Animated.Value;
 }
 
 const FlickerOverlay: React.FC<FlickerOverlayProps> = ({ flickerAnim }) => {
+    const { themeStyles, setTheme } = useTheme();
     return (
-        <Animated.View style={[styles.flickerOverlay, { opacity: flickerAnim }]}>
-            <Svg height="100%" width="100%" style={styles.screenLineV}>
+        <Animated.View style={[themeStyles.flickerOverlay, { opacity: flickerAnim }]}>
+            <Svg height="100%" width="100%" style={themeStyles.screenLineV}>
                 <Defs>
                     <Pattern id="pattern-vertical" patternUnits="userSpaceOnUse" width="2" height="2">
                         <Rect width="2" height="1" fill="rgba(18, 16, 16, 0.0)" />
-                        <Rect y="1" width="2" height="1" fill="rgba(0, 0, 0, 0.25)" />
+                        <Rect y="1" width="2" height="1" fill="rgba(0, 0, 0, 0.3)" />
                     </Pattern>
                 </Defs>
                 <Rect width="100%" height="100%" fill="url(#pattern-vertical)" />
             </Svg>
-            <Svg height="100%" width="100%" style={styles.screenLineH}>
+            <Svg height="100%" width="100%" style={themeStyles.screenLineH}>
                 <Defs>
                     <Pattern id="pattern-horizontal" patternUnits="userSpaceOnUse" width="3" height="3">
                         <Rect width="1" height="3" fill="rgba(255, 0, 0, 0.06)" />

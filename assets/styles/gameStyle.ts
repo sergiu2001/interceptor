@@ -1,11 +1,71 @@
 import { StyleSheet, Dimensions } from 'react-native';
+import { ThemeVars } from '../themes/themeTypes';
 
-export const gameStyles = StyleSheet.create({
+export const gameStyles = (theme: ThemeVars) => StyleSheet.create({
+    // Typography & Text
     specialText: {
-        color: '#00FF00',
-        fontFamily: 'VT323Regular',
+        color: theme.secondaryColor,
+        fontFamily: theme.fontFamily,
         fontSize: 17,
+        textShadowColor: theme.secondaryShadowColor,
+        textShadowRadius: 4,
+        letterSpacing: 1.1,
     },
+    logText: {
+        fontFamily: theme.fontFamily,
+        fontSize: 17,
+        color: theme.mainColor,
+        textShadowColor: theme.mainShadowColor,
+        textShadowRadius: 4,
+        letterSpacing: 1.1,
+    },
+    profileDataHeader: {
+        fontFamily: theme.fontFamily,
+        fontSize: 17,
+        backgroundColor: theme.secondaryColor,
+        color: '#000000',
+        textShadowColor: '#000000',
+        textShadowRadius: 4,
+        letterSpacing: 1.1,
+        paddingHorizontal: 5,
+        paddingBottom: 3,
+    },
+    profileData: {
+        fontFamily: theme.fontFamily,
+        fontSize: 17,
+        color: theme.mainColor,
+        textShadowColor: theme.mainShadowColor,
+        textShadowRadius: 4,
+        letterSpacing: 1.1,
+    },
+    avatarName: {
+        color: theme.mainColor,
+        fontFamily: theme.fontFamily,
+        fontSize: 19,
+        alignSelf: 'center',
+        marginLeft: 35,
+    },
+    taskText: {
+        color: '#FFFFFF',
+        fontFamily: theme.fontFamily,
+        fontSize: 21,
+        textAlign: 'justify',
+    },
+    taskCompletedText: {
+        color: '#00FF00',
+        fontFamily: theme.fontFamily,
+        fontSize: 21,
+        textDecorationLine: 'line-through',
+        textAlign: 'justify',
+    },
+    taskIncompleteText: {
+        color: '#7A100F',
+        fontFamily: theme.fontFamily,
+        fontSize: 21,
+        textAlign: 'justify',
+    },
+
+    // Layout & Containers
     container: {
         flex: 1,
         backgroundColor: '#000000',
@@ -21,17 +81,17 @@ export const gameStyles = StyleSheet.create({
         overflow: 'hidden',
         position: 'relative',
     },
+    scanline: {
+        height: 20,
+        width: '100%',
+        zIndex: 3,
+    },
     scanlineContainer: {
         position: 'absolute',
         top: 0,
         left: 0,
         right: 0,
         height: Dimensions.get('window').height,
-    },
-    scanline: {
-        height: 20,
-        width: '100%',
-        zIndex: 3,
     },
     screenLineV: {
         position: 'absolute',
@@ -70,6 +130,7 @@ export const gameStyles = StyleSheet.create({
         width: 225,
         height: 210,
         resizeMode: 'stretch',
+        tintColor: theme.avatarTintColor,
     },
     logContainer: {
         flex: 1,
@@ -77,39 +138,73 @@ export const gameStyles = StyleSheet.create({
         paddingBottom: 20,
         paddingHorizontal: 20,
     },
-    logText: {
-        fontFamily: 'VT323Regular',
-        fontSize: 17,
-        color: '#00FF00',
-    },
 
+    // Inputs
     input: {
         height: 50,
-        borderColor: '#00B00099',
+        borderColor: theme.inputBorderColor,
         borderWidth: 1,
-        color: '#00FF00DF',
+        color: theme.inputBorderColor,
         paddingHorizontal: 10,
         backgroundColor: '#000000',
         borderRadius: 3,
         fontSize: 17,
-        fontFamily: 'VT323Regular',
+        fontFamily: theme.fontFamily,
+        zIndex: 3,
+    },
+    gameInputContainer: {
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'stretch',
+        height: 50,
+    },
+    gameInput: {
+        flex: 1,
+        borderColor: theme.inputBorderColor,
+        borderWidth: 1,
+        color: theme.inputBorderColor,
+        paddingHorizontal: 10,
+        backgroundColor: '#000000',
+        borderRadius: 3,
+        fontSize: 21,
+        fontFamily: theme.fontFamily,
+        zIndex: 3,
+    },
+    gameInputButton: {
+        marginLeft: 5,
+        width: 50,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#282828',
+        borderRadius: 3,
+        borderColor: '#4E4E4E',
+        borderWidth: 1,
         zIndex: 3,
     },
 
+    // Profiles & Avatars
     profileContainer: {
         flex: 1,
         flexDirection: 'row',
     },
     profileDataContainer: {
-        paddingLeft: 4,
-        paddingTop: 10,
+        flex: 2,
+        flexDirection: 'column',
+    },
+    profileDataRow: {
+        flex: 3,
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        columnGap: 5,
     },
     avatar: {
-        maxWidth: 150,
-        maxHeight: 180,
+        width: 140,
+        height: 170,
         overflow: 'hidden',
+        tintColor: theme.avatarTintColor,
     },
 
+    // Game screens & tasks
     gameContainer: {
         flex: 1,
         zIndex: 1,
@@ -131,12 +226,10 @@ export const gameStyles = StyleSheet.create({
         padding: 5,
         width: Dimensions.get('window').width,
     },
-
     taskContainer: {
         display: 'flex',
         flexDirection: 'column',
         flexWrap: 'nowrap',
-
     },
     taskCard: {
         flex: 1,
@@ -145,54 +238,45 @@ export const gameStyles = StyleSheet.create({
         justifyContent: 'flex-start',
         alignItems: 'stretch',
     },
-    taskText: {
-        color: '#FFFFFF',
-        fontFamily: 'VT323Regular',
-        fontSize: 21,
-        textAlign: 'justify',
+
+
+    // Store
+    storeContainer: {
+        padding: 20,
     },
-    taskCompletedText: {
-        color: '#00FF00',
-        fontFamily: 'VT323Regular',
-        fontSize: 21,
-        textDecorationLine: 'line-through',
-        textAlign: 'justify',
+    // Avatars List
+    avatarsGrid: {
+        flexDirection: 'column',
+        flexWrap: 'wrap',
+        
     },
-    taskIncompleteText: {
-        color: '#7A100F',
-        fontFamily: 'VT323Regular',
-        fontSize: 21,
-        textAlign: 'justify',
+    avatarCard: {
+        flexDirection: 'row',
+        flexWrap: 'nowrap',
+    },
+    avatarImage: {
+        width: 110,
+        height: 130,
+        marginBottom: 10,
+        borderColor: theme.avatarBorderColor,
+        borderWidth: 3,
+        tintColor: theme.avatarTintColor,
     },
 
-    gameInputContainer: {
-        display: 'flex',
+    // Theme List
+    themeGrid: {
+        flexDirection: 'column',
+        flexWrap: 'wrap',
+    },
+    themeCard: {
         flexDirection: 'row',
-        alignItems: 'stretch',
-        height: 50,
+        flexWrap: 'nowrap',
     },
-    gameInput: {
-        flex: 1,
-        borderColor: '#00FF0099',
-        borderWidth: 1,
-        color: '#00FF00DF',
-        paddingHorizontal: 10,
-        backgroundColor: '#000000',
-        borderRadius: 3,
-        fontSize: 21,
-        fontFamily: 'VT323Regular',
-        zIndex: 3,
+    activeTheme: {
+        backgroundColor: '#4CAF50',
     },
-    gameInputButton: {
-        marginLeft: 5,
-        width: 50,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: '#282828',
-        borderRadius: 3,
-        borderColor: '#4E4E4E',
-        borderWidth: 1,
-        zIndex: 3,
-    }
+    themeText: {
+        fontSize: 17,
+    },
 
 });

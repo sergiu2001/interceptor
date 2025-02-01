@@ -2,19 +2,20 @@
 import React, { useState } from 'react';
 import { Dimensions, ScrollView, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { gameStyles as styles } from '../assets/styles/gameStyle';
-import FlickerOverlay from '../components/FlickerOverlay';
-import ScanlineOverlay from '../components/ScanlineOverlay';
-import GameDisplay from '../components/GameDisplay';
-import GameInput from '../components/GameInput';
-import { useScanlineAnimation } from '../hooks/useScanlineAnimation';
-import { useFlickerAnimation } from '../hooks/useFlickerAnimation';
+import FlickerOverlay from '@/components/FlickerOverlay';
+import ScanlineOverlay from '@/components/ScanlineOverlay';
+import GameDisplay from '@/components/GameDisplay';
+import GameInput from '@/components/GameInput';
+import { useScanlineAnimation } from '@/hooks/useScanlineAnimation';
+import { useFlickerAnimation } from '@/hooks/useFlickerAnimation';
 import { router } from 'expo-router';
-import { Contract } from '../models/Contract';
-import { Difficulty } from '../models/Difficulty';
-import TaskDisplay from '../components/TaskDisplay';
+import { Contract } from '@/models/Contract';
+import { Difficulty } from '@/models/Difficulty';
+import TaskDisplay from '@/components/TaskDisplay';
+import { useTheme } from '@/components/ThemeContext';
 
 const GameScreen: React.FC = () => {
+    const { themeStyles, setTheme } = useTheme();
     const [logs, setLogs] = useState<string[]>([]);
     const [input, setInput] = useState('');
 
@@ -28,7 +29,7 @@ const GameScreen: React.FC = () => {
     const flickerAnim = useFlickerAnimation();
 
     const handleCommand = (text: string) => {
-        let newLogs = [...logs, `~$: ${text}`];
+        let newLogs = [...logs, `>.>*!* ${text}`];
         const command = text.trim();
 
         switch (command) {
@@ -70,21 +71,21 @@ const GameScreen: React.FC = () => {
     }
 
     return (
-        <SafeAreaView style={styles.container}>
-            <ScrollView style={styles.gameContainer} horizontal={true} pagingEnabled={true} keyboardDismissMode={'on-drag'} showsHorizontalScrollIndicator={false} contentOffset={{ x: Dimensions.get('window').width, y: 0 }}>
-                <View style={styles.gameConsole}>
+        <SafeAreaView style={themeStyles.container}>
+            <ScrollView style={themeStyles.gameContainer} horizontal={true} pagingEnabled={true} keyboardDismissMode={'on-drag'} showsHorizontalScrollIndicator={false} contentOffset={{ x: Dimensions.get('window').width, y: 0 }}>
+                <View style={themeStyles.gameConsole}>
 
                 </View>
-                <View style={[styles.bezel, styles.gameTerminal]}>
-                    <View style={styles.crt}>
+                <View style={[themeStyles.bezel, themeStyles.gameTerminal]}>
+                    <View style={themeStyles.crt}>
                         <FlickerOverlay flickerAnim={flickerAnim} />
                         <ScanlineOverlay scanlineAnim={scanlineAnim} />
-                        <GameDisplay logs={logs} contract={contract} style={styles.logContainer} />
+                        <GameDisplay logs={logs} contract={contract} style={themeStyles.logContainer} />
                         <GameInput input={input} setInput={setInput} handleCommand={handleCommand} handleHistory={handleHistory} />
                     </View>
                 </View>
-                <View style={[styles.bezel, styles.gameTasksContainer]}>
-                    <View style={styles.crt}>
+                <View style={[themeStyles.bezel, themeStyles.gameTasksContainer]}>
+                    <View style={themeStyles.crt}>
                         <FlickerOverlay flickerAnim={flickerAnim} />
                         <ScanlineOverlay scanlineAnim={scanlineAnim} />
                         <TaskDisplay contract={contract} />

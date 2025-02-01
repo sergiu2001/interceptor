@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { ScrollView, StyleProp, Text } from 'react-native';
-import { gameStyles as styles } from '../assets/styles/gameStyle';
-import useTypewriterAnimation from '../hooks/useTypewriterAnimation';
+import useTypewriterAnimation from '@/hooks/useTypewriterAnimation';
+import { useTheme } from '@/components/ThemeContext';
 
 interface LogDisplayProps {
     logs: string[];
@@ -33,16 +33,17 @@ const LogDisplay: React.FC<LogDisplayProps> = ({ logs, style }) => {
 };
 
 const AnimatedLog: React.FC<{ text: string; onComplete?: () => void }> = ({ text, onComplete }) => {
+    const { themeStyles, setTheme } = useTheme();
     const { displayedText } = useTypewriterAnimation(text, { onComplete });
 
-    if(displayedText.includes(':')) {
-        const [prefix, suffix] = displayedText.split(':');
+    if(displayedText.includes('*!*')) {
+        const [prefix, suffix] = displayedText.split('*!*');
         return (
-            <Text style={styles.specialText}>{prefix}:  <Text style={styles.logText}>{suffix}</Text></Text>
+            <Text style={themeStyles.specialText}>{prefix}: <Text style={themeStyles.logText}>{suffix}</Text></Text>
         );
     }
 
-    return <Text style={styles.logText}>{displayedText}</Text>;
+    return <Text style={themeStyles.logText}>{displayedText}</Text>;
 };
 
 export default LogDisplay;

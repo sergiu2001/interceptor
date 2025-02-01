@@ -1,7 +1,7 @@
 // src/components/CommandInput.tsx
 import React from 'react';
 import { TextInput } from 'react-native';
-import { gameStyles as styles } from '../assets/styles/gameStyle';
+import { useTheme } from '@/components/ThemeContext';
 
 interface CommandInputProps {
     input: string;
@@ -10,9 +10,10 @@ interface CommandInputProps {
 }
 
 const CommandInput: React.FC<CommandInputProps> = ({ input, setInput, handleCommand }) => {
+    const { themeStyles, setTheme } = useTheme();
     return (
             <TextInput
-                style={[styles.input]}
+                style={themeStyles.input}
                 value={input}
                 onChangeText={setInput}
                 onSubmitEditing={() => handleCommand(input)}

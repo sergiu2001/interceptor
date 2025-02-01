@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { ScrollView, StyleProp, Text } from 'react-native';
-import { gameStyles as styles } from '../assets/styles/gameStyle';
-import useTypewriterAnimation from '../hooks/useTypewriterAnimation';
-import { Contract } from '../models/Contract';
-import ParsedText from 'react-native-parsed-text';
+import useTypewriterAnimation from '@/hooks/useTypewriterAnimation';
+import { Contract } from '@/models/Contract';
+import { useTheme } from '@/components/ThemeContext';
 
 interface GameDisplayProps {
     logs: string[];
@@ -38,15 +37,17 @@ const GameDisplay: React.FC<GameDisplayProps> = ({ logs, contract, style }) => {
 
 
 const AnimatedLog: React.FC<{ text: string; onComplete?: () => void }> = ({ text, onComplete }) => {
-
+    const { themeStyles, setTheme } = useTheme();
     const { displayedText } = useTypewriterAnimation(text, { onComplete });
 
-    return (
-        <ParsedText
-            style={styles.logText} >
-            {displayedText}
-        </ParsedText>
-    );
+    if(displayedText.includes('*!*')) {
+        const [prefix, suffix] = displayedText.split('*!*');
+        return (
+            <Text style={themeStyles.specialText}>{prefix}: <Text style={themeStyles.logText}>{suffix}</Text></Text>
+        );
+    }
+
+    return <Text style={themeStyles.logText}>{displayedText}</Text>;
 
 };
 

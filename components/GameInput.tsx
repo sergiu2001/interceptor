@@ -1,6 +1,6 @@
 import React from 'react';
-import { TextInput, Button, View, TouchableHighlight } from 'react-native';
-import { gameStyles as styles } from '../assets/styles/gameStyle';
+import { TextInput, View, TouchableHighlight } from 'react-native';
+import { useTheme } from '@/components/ThemeContext';
 
 interface GameInputProps {
     input: string;
@@ -10,11 +10,11 @@ interface GameInputProps {
 }
 
 const GameInput: React.FC<GameInputProps> = ({ input, setInput, handleCommand, handleHistory }) => {
-
+    const { themeStyles, setTheme } = useTheme();
     return (
-        <View style={styles.gameInputContainer}>
+        <View style={themeStyles.gameInputContainer}>
             <TextInput
-                style={[styles.gameInput]}
+                style={themeStyles.gameInput}
                 value={input}
                 onChangeText={setInput}
                 onSubmitEditing={() => handleCommand(input)}
@@ -23,7 +23,7 @@ const GameInput: React.FC<GameInputProps> = ({ input, setInput, handleCommand, h
                 autoCorrect={false}
                 autoCapitalize="none"
             />
-            <TouchableHighlight style={styles.gameInputButton} onPress={handleHistory} underlayColor={'#3b3b3b'} >
+            <TouchableHighlight style={themeStyles.gameInputButton} onPress={handleHistory} underlayColor={'#3b3b3b'} >
                 <View />
             </TouchableHighlight>
         </View>

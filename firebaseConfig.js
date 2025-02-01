@@ -1,7 +1,7 @@
 import { initializeApp } from 'firebase/app';
 import { initializeAuth, getReactNativePersistence } from 'firebase/auth';
 import { initializeFirestore } from 'firebase/firestore';
-import { getStorage, ref, getDownloadURL } from "firebase/storage";
+import { getStorage } from "firebase/storage";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as SecureStore from 'expo-secure-store';
 
@@ -33,23 +33,89 @@ export const auth = initializeAuth(app, {
 });
 export const db = initializeFirestore(app, {
     experimentalForceLongPolling: true,
+    persistence: getReactNativePersistence(AsyncStorage),
 });
 export const storage = getStorage(app);
 
-export const storeAvatarUri = async (uri) => {
+export const saveAuthToSecureStore = async (authData) => {
     try {
-        await AsyncStorage.setItem('@avatar_uri', uri);
-    } catch (e) {
-        console.error('Error saving avatar URI:', e);
+        await SecureStore.setItemAsync('userAuth', JSON.stringify(authData));
+    } catch (error) {
+        console.log('Error saving auth data to secure store', error);
+    }
+}
+
+export const saveProfileToAsyncStorage = async (profileData) => {
+    try {
+        await AsyncStorage.setItem('userData', JSON.stringify(profileData));
+    } catch (error) {
+        console.log('Error saving profile data to async storage', error);
     }
 };
 
-export const getStoredAvatarUri = async () => {
+export const getAuthFromSecureStore = async () => {
     try {
-        const uri = await AsyncStorage.getItem('@avatar_uri');
-        return uri !== null ? uri : null;
-    } catch (e) {
-        console.error('Error retrieving avatar URI:', e);
+        const userAuth = await SecureStore.getItemAsync('userAuth');
+        return userAuth ? JSON.parse(userAuth) : null;
+    } catch (error) {
+        console.log('Error getting auth data from secure store', error);
+        return null;
+    }
+}
+
+export const getProfileFromAsyncStorage = async () => {
+    try {
+        const userData = await AsyncStorage.getItem('userData');
+        return userData ? JSON.parse(userData) : null;
+    } catch (error) {
+        console.log('Error getting profile data from async storage', error);
+        return null;
+    }
+}
+
+export const cleanUserData = async () => {
+    try {
+        await SecureStore.deleteItemAsync('userAuth');
+        await AsyncStorage.removeItem('userData');
+    } catch (error) {
+        console.log('Error cleaning user data', error);
+    }
+}
+
+export const checkUserCache = async () => {
+    try {
+        const userAuth = await SecureStore.getItemAsync('userAuth');
+        const parsedAuth = userAuth ? JSON.parse(userAuth) : null;
+
+        const userData = await AsyncStorage.getItem('userData');
+        const parsedData = userData ? JSON.parse(userData) : null;
+
+        if (parsedAuth && parsedData) {
+            // Initialize Firebase auth state
+            await auth.signInWithCustomToken(parsedAuth.token);
+            console.log('Auto-login successful.');
+            return parsedData;
+        } else {
+            console.log('No cached user data found. Redirecting to login...');
+            return null;
+        }
+    } catch (error) {
+        console.error('Error during user cache check:', error);
         return null;
     }
 };
+
+export const refreshAuthToken = async () => {
+    try {
+        const user = auth.currentUser;
+        if (user) {
+            const token = await user.getIdToken(true); // Force refresh the token
+            await saveAuthToSecureStore({ token });
+            console.log('Token refreshed successfully.');
+        }
+    } catch (error) {
+        console.error('Error refreshing token:', error);
+        await cleanUserData();
+    }
+};
+

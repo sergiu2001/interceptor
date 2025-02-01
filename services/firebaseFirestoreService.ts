@@ -1,8 +1,8 @@
 // src/services/firebaseFirestoreService.tsx
 
-import { db, auth } from '../firebaseConfig';
+import { db, auth, saveProfileToAsyncStorage } from '@/firebaseConfig';
 import { doc, setDoc, getDoc, updateDoc } from 'firebase/firestore';
-import { Profile } from '../models/Profile';
+import { Profile } from '@/models/Profile';
 
 
 export const createUserProfile = async (alias: string, avatar: string) => {
@@ -29,6 +29,8 @@ export const createUserProfile = async (alias: string, avatar: string) => {
             failedContracts: profile.failedContracts,
             avatar: profile.avatar,
         });
+
+        await saveProfileToAsyncStorage({profile: profile});
     } catch (error) {
         console.error('Error creating user profile:', error);
         throw new Error('Profile creation failed');
@@ -61,7 +63,11 @@ export const getUserProfile = async (): Promise<Profile | null> => {
                 data.failedContracts,
                 data.avatar
             );
-
+            try {
+                await saveProfileToAsyncStorage({ profile: profile });
+            } catch (error) {
+                console.error('Failed to save profile to AsyncStorage:', error);
+            }
             return profile;
         } else {
             console.log('No profile found for the user');
@@ -96,6 +102,13 @@ export const updateUserProfile = async (profile: Profile) => {
             failedContracts: profile.failedContracts,
             avatar: profile.avatar,
         });
+
+        try {
+            await saveProfileToAsyncStorage({ profile: profile });
+        } catch (error) {
+            console.error('Failed to save profile to AsyncStorage:', error);
+        }
+
     } catch (error) {
         console.error('Error updating user profile:', error);
         throw new Error('Profile update failed');

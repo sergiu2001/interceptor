@@ -1,19 +1,24 @@
 // app/ProfileScreen.tsx
 import React, { useState } from 'react';
-import { View, ScrollView } from 'react-native';
+import { View, ScrollView, Text } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { gameStyles as styles } from '../assets/styles/gameStyle';
-import FlickerOverlay from '../components/FlickerOverlay';
-import ScanlineOverlay from '../components/ScanlineOverlay';
-import LogDisplay from '../components/LogDisplay';
-import CommandInput from '../components/CommandInput';
-import { useScanlineAnimation } from '../hooks/useScanlineAnimation';
-import { useFlickerAnimation } from '../hooks/useFlickerAnimation';
+import FlickerOverlay from '@/components/FlickerOverlay';
+import ScanlineOverlay from '@/components/ScanlineOverlay';
+import LogDisplay from '@/components/LogDisplay';
+import CommandInput from '@/components/CommandInput';
+import { useScanlineAnimation } from '@/hooks/useScanlineAnimation';
+import { useFlickerAnimation } from '@/hooks/useFlickerAnimation';
 import { router } from 'expo-router';
-import Avatar from '../components/Avatar';
+import Avatar from '@/components/Avatar';
+import { useProfile } from '@/components/ProfileContext';
+import ProfileData from '@/components/ProfileDataContainer';
+import { useTheme } from '@/components/ThemeContext';
+
 
 const ProfileScreen: React.FC = () => {
-    const [plogs, setPLogs] = useState<string[]>(['ALIAS: starlord', 'REPUTATION: lord', 'TROJANS: 5000', 'LOCATION: New Vega System', 'STATUS: active']);
+    const { themeStyles, setTheme } = useTheme();
+    const { profile, refreshProfile } = useProfile();
+    const [plogs, setPLogs] = useState<string[]>([`ALIAS*!* ${profile?.alias}`, `REPUTATION*!* ${profile?.reputation}`, `TROJANS*!* ${profile?.trojans}`, `LOCATION*!* ${profile?.location}`, `STATUS*!* ${profile?.status}`]);
     const [logs, setLogs] = useState<string[]>(['Use HELP command to view the list of commands.']);
     const [input, setInput] = useState('');
     const [history, setHistory] = useState<string[]>([]);
@@ -22,29 +27,29 @@ const ProfileScreen: React.FC = () => {
     const flickerAnim = useFlickerAnimation();
 
     const handleCommand = (text: string) => {
-        let newLogs = [...logs, `~$: ${text}`];
+        let newLogs = [...logs, `>.>*!* ${text}`];
         let newHistory = [...history, text];
         const command = text.trim().toLowerCase();
 
         switch (command) {
             case 'help':
-                newLogs.push('This is the list of available commands:');
-                newLogs.push('\t'.repeat(3)+'~ BACK\n'+'\t'.repeat(3)+'~ REP\n'+'\t'.repeat(3)+'~ XP\n'+'\t'.repeat(3)+'~ CRED\n'+'\t'.repeat(3)+'~ LOCATION\n'+'\t'.repeat(3)+'~ STAT\n'+'\t'.repeat(3)+'~ HISTORY');
+                newLogs.push('This is the list of available commands*!*');
+                newLogs.push('\t'.repeat(3) + '~ BACK\n' + '\t'.repeat(3) + '~ REP\n' + '\t'.repeat(3) + '~ XP\n' + '\t'.repeat(3) + '~ CRED\n' + '\t'.repeat(3) + '~ LOCATION\n' + '\t'.repeat(3) + '~ STAT\n' + '\t'.repeat(3) + '~ HISTORY');
                 break;
             case 'rep':
-                newLogs.push('Your reputation is LORD.');    
+                newLogs.push(`Your reputation is ${profile?.reputation}`);
                 break;
             case 'xp':
-                newLogs.push('You have 200 xp until next promotion.');  
+                newLogs.push('You have 200 xp until next promotion.');
                 break;
             case 'cred':
-                newLogs.push('You have 5000 trojans in your digital wallet.');  
+                newLogs.push(`You have ${profile?.trojans} trojans in your digital wallet.`);
                 break;
             case 'location':
-                newLogs.push('Right now you are in the New Vega System.');  
+                newLogs.push(`Right now you are in the ${profile?.location}.`);
                 break;
             case 'stat':
-                newLogs.push('Your status is active.');
+                newLogs.push(`Your status is ${profile?.status}.`);
                 break;
             case 'history':
                 newLogs.push('You have no history.');
@@ -63,19 +68,19 @@ const ProfileScreen: React.FC = () => {
     };
 
     return (
-        <SafeAreaView style={styles.container}>
-            <View style={styles.bezel}>
-                <View style={styles.crt}>
+        <SafeAreaView style={themeStyles.container}>
+            <View style={themeStyles.bezel}>
+                <View style={themeStyles.crt}>
                     <FlickerOverlay flickerAnim={flickerAnim} />
                     <ScanlineOverlay scanlineAnim={scanlineAnim} />
                     <ScrollView>
-                        <View style={styles.profileContainer}>
-                            <LogDisplay style={styles.profileDataContainer} logs={plogs} />
+                        <View style={themeStyles.profileContainer}>
+                            <ProfileData profile={profile}/>
                             <Avatar
-                                avatarPath={'avatar1F.png'}
+                                avatarName={profile?.avatar || 'avatar1F'}
                             />
                         </View>
-                        <LogDisplay style={styles.logContainer} logs={logs} />
+                        <LogDisplay style={themeStyles.logContainer} logs={logs} />
                     </ScrollView>
                     <CommandInput input={input} setInput={setInput} handleCommand={handleCommand} />
                 </View>
